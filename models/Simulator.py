@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
-from models import ResourceManager
-from models import Node
+from models.ResourceManager import ResourceManager
+from models.Node import Node
+
 
 class Simulator:
     """Class to represents number of core and memory for a task or container"""
@@ -19,7 +20,7 @@ class Simulator:
     # --- Constructor
     def __init__(self, number_node, resource_per_node, application_requests):
         self._nodes = []
-        for i in range(0,number_node):
+        for i in range(0, number_node):
             self._nodes[i] = Node(i, resource_per_node)
 
         self._resource_manager = ResourceManager(self._nodes, resource_per_node)
@@ -35,10 +36,10 @@ class Simulator:
     def tmp_pct(self, task):
         app = None
         for i in range(0, len(self._applications)):
-            if self._applications[i].dag.tasks.indexOf(task) > -1 :
+            if self._applications[i].dag.tasks.indexOf(task) > -1:
                 app = self._applications[i]
                 break
-        if app is None :
+        if app is None:
             return
         container = task.container
         containers = self._resource_manager.containers_per_app[app.id]
@@ -80,4 +81,4 @@ class Simulator:
             self._applications[i].update(self._simulation_date)
 
         # 6 - Attempt to fulfill an app's reservation
-        self._resource_manager.fulfil_reservations(self._simulation_date)
+        self._resource_manager.fulfil_reservation(self._simulation_date)

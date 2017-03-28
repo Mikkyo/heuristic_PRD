@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
-from enums import TaskStatus
+from enums.TaskStatus import TaskStatus
 
 class Task:
     """Class to represent a container"""
@@ -45,7 +45,7 @@ class Task:
         self._criticality = 0.0
 
         self._container = None
-        self._status = TaskStatus['UNKNOWN']
+        self._status = TaskStatus.UNKNOWN
 
     # --- Methods
     # Method to check if a task is a root
@@ -62,25 +62,25 @@ class Task:
 
     # Method to check if a task is ready to be scheduled
     def is_ready(self):
-        if self._status is TaskStatus['READY']:
+        if self._status is TaskStatus.READY:
             return True
         return False
 
     # Method to check if a task is running
     def is_running(self):
-        if self._status is TaskStatus['RUNNING']:
+        if self._status is TaskStatus.RUNNING:
             return True
         return False
 
     # Method to check if a task is finished
     def is_finished(self):
-        if self._status is TaskStatus['FINISHED']:
+        if self._status is TaskStatus.FINISHED:
             return True
         return False
 
     # Method to check if a task is the current root
     def is_current_root(self):
-        if (self._status < TaskStatus['FINISHED']) & (self._status > TaskStatus['PENDING']):
+        if (self._status < TaskStatus.FINISHED) & (self._status > TaskStatus.PENDING):
             return True
         return False
 
@@ -107,7 +107,7 @@ class Task:
     def start(self, container, simulation_date):
         self._start_date = simulation_date
         self._container = container
-        self._status = TaskStatus['RUNNING']
+        self._status = TaskStatus.RUNNING
 
     # Method to preempt a task
     def preempt(self):
@@ -116,16 +116,16 @@ class Task:
             self._progress = 0.0
             self._criticality = 0.0
             self._container = None
-            self._status = TaskStatus['READY']
+            self._status = TaskStatus.READY
 
     # Method to finish a task
     def finish(self, simulation_date):
         self._criticality = 0.0
         self._container.remove_task(self, simulation_date)
         self._container = None
-        self._status = TaskStatus['FINISHED']
+        self._status = TaskStatus.FINISHED
         for i in range(0, len(self._child_tasks)):
-            self._child_tasks[i].status = TaskStatus['READY']
+            self._child_tasks[i].status = TaskStatus.READY
 
     # Method to compute criticality
     def compute_criticality(self):

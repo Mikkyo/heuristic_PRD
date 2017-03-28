@@ -19,7 +19,7 @@ class Reservation:
         self._priority = priority
         self._tasks = tasks
         self.container = None
-        
+
     # --- Getters/Setters
 
 

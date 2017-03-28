@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
+from enums.TaskStatus import TaskStatus
 
 class TaskDAG:
     """Class to represent a container"""
@@ -60,11 +61,11 @@ class TaskDAG:
     # Method to init all tasks
     def init(self):
         for i in range(0, len(self._tasks)):
-            self._tasks[i].status = TASK_PENDING
+            self._tasks[i].status = TaskStatus.PENDING
 
         root_tasks = self.get_root_tasks()
         for i in range(0, len(root_tasks)):
-            self._tasks[i].status = TASK_READY
+            self._tasks[i].status = TaskStatus.READY
 
     # Method to update tasks
     def update_tasks(self, simulation_date):

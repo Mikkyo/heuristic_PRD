@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
-from models import Resource
+from models.Resource import Resource
+
 
 class Node:
     """Class to represents number of core and memory for a task or container"""
@@ -22,15 +23,17 @@ class Node:
     # --- Methods
     # Method to get used resources
     def get_used_resources(self):
-        resource = Resource()
+        vcores = 0
+        memory = 0
         for i in range(0, len(self._containers)):
-            resource.add(self._containers[i].capacity)
-        return resource
+            vcores += self._containers[i].capacity.vcores
+            memory += self._containers[i].capacity.memory
+        return Resource(vcores, memory)
 
     # Method to get available resources
     def get_available_resources(self):
-        resource = Resource().copy(self._max_resource).sub(self.get_used_resources())
-        return resource
+        resources_used = self.get_used_resources()
+        return Resource(self._max_resource.vcores - resources_used.vcores, self._max_resource.memory - resources_used.memory)
 
     # Method to add a container
     def add_container(self, container):
@@ -39,11 +42,9 @@ class Node:
     # Method to remove a container
     def remove_container(self, container):
         # A container is preempter
-        index = self._containers.index(container)
-        if(index > -1):
-            self._containers.splice(index, 1)
+        count = self._containers.count(container)
+        if (count > 0):
+            self._containers.remove(container)
 
     # --- Getters/Setters
     #
-
-

@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
+from enums.TaskStatus import TaskStatus
+from models.Reservation import Reservation
+from models.Resource import Resource
 
 class Application:
     """Class to represent a container"""
@@ -11,7 +14,7 @@ class Application:
     _dag = None
     _containers = None
     _terminated = None
-    _algorithme = None
+    _algorithm = None
     _resource_manager = None
 
     # Constants
@@ -30,15 +33,17 @@ class Application:
         self._containers = []
         self._terminated = False
 
-        self._algorithme = algo
+        self._algorithm = algo | self.APP_ALGO_SMART
 
     # --- Methods
     # Method to get the used resources
     def get_used_resources(self):
-        resource = new Resource()
+        vcores = 0
+        memory = 0
         for i in range(0, len(self._containers)):
-            resource.add(self._containers[i].capacity)
-        return resource
+            vcores += self._containers[i].vcores
+            memory += self._containers[i].memory
+        return Resource(vcores, memory)
 
     # Method to add a container
     def add_container(self, reservation, simulation_date):
@@ -54,9 +59,9 @@ class Application:
     # Method to remove a container
     def remove_container(self, container):
         #A container is preempted
-        index = self._containers.index(container)
-        if index > -1:
-            self._containers.splice(index, 1)
+        count = self._containers.count(container)
+        if count > 0:
+            self._containers.remove(container)
 
     # Method to update a task
     def update_task(self, simulation_date):
@@ -76,9 +81,9 @@ class Application:
         ready_tasks = self._dag.get_ready_tasks()
         for i in range(0, len(ready_tasks)):
             ready_task = ready_tasks[i]
-            reservation = Reservation(ready_task.resource, ready_task.criticality, [read_task])
-            ready_task.status = TASK_SCHEDULED
-            self.rm.reserve(self, reservation)
+            reservation = Reservation(ready_task.resource, ready_task.criticality, ready_task)
+            ready_task.status = TaskStatus.SCHEDULED
+            self._resource_manager.reserve(self, reservation)
 
     # --- Getters/Setters
 

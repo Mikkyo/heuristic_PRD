@@ -52,7 +52,7 @@ class Container:
 
     # Method to update the container
     def update(self, simulation_date):
-        # P37 of the Nicolas Gougeon PRD, written in a differnt way
+        # P37 of the Nicolas Gougeon PRD, written in a different way
         A = 0.0
         for i in range(0, len(self._tasks)):
             A = max(A, pow(min(self._tasks[i].progress, 1.0), 1/4))

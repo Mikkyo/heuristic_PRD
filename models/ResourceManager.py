@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
-from models import Resource
+from models.Resource import Resource
+from models.Container import Container
 
 class ResourceManager:
     """Class to represents number of core and memory for a task or container"""
@@ -49,7 +50,8 @@ class ResourceManager:
 
     # Method to help preempting a container
     def preempt_containers(self, simulation_date):
-        reservations_per_app = Resource.copy(self._total_resources).div(len(self._applications))
+        number_application = len(self._applications)
+        reservations_per_app = Resource(self._total_resources.vcores / number_application, self._total_resources.memory/ number_application)
 
         # Sort the containers
         self.sort_containers()
@@ -74,7 +76,7 @@ class ResourceManager:
                 for k in range(0, len(self._nodes)):
                     if self._nodes[k].get_available_resources() > reservation.resource:
                         node = self._nodes[k]
-                        container = new Container(reservation.resource, node, application, reservation.priority)
+                        container = Container(reservation.resource, node, application, reservation.priority)
                         self._containers_per_app[application.id] = container
                         node.add_container(container)
 
