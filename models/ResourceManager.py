@@ -58,7 +58,7 @@ class ResourceManager:
             application = self._applications[i]
             containers = self._containers_per_app[i]
 
-            while application.get_used_resources().greater_than(reservations_per_app):
+            while application.get_used_resources() >= reservations_per_app:
                 containers.preempt(simulation_date) # We preempt the lowest priority resource
 
     # Method to fulfil the reservation
