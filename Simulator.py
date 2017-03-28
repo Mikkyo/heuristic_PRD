@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
+from models import ResourceManager
+from models import Node
 
 class Simulator:
     """Class to represents number of core and memory for a task or container"""
@@ -18,9 +20,9 @@ class Simulator:
     def __init__(self, number_node, resource_per_node, application_requests):
         self._nodes = []
         for i in range(0,number_node):
-            self._nodes[i] = new Node(i, resource_per_node)
+            self._nodes[i] = Node(i, resource_per_node)
 
-        self._resource_manager = new ResourceManager(self._nodes,resource_per_node)
+        self._resource_manager = ResourceManager(self._nodes, resource_per_node)
         self._application_request = application_requests
         self._applications = []
         self._simulation_date = None
@@ -46,8 +48,8 @@ class Simulator:
             container.preempt(self._simulation_date)
 
     # Steps Method
-    def steps(self,number_interation):
-        for i in range(0, number_interation):
+    def steps(self,number_iteration):
+        for i in range(0, number_iteration):
             self.step()
 
     # Step Method

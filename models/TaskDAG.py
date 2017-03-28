@@ -3,7 +3,7 @@
 
 # --- Import Area
 
-class Application:
+class TaskDAG:
     """Class to represent a container"""
 
     # --- Attributes

@@ -12,7 +12,7 @@ class Resource:
     _memory = None #Number of memory needed
 
     #--- Constructor
-    def __init__(self,vcores, memory):
+    def __init__(self, vcores, memory):
         self._vcores = vcores
         self._memory = memory
 

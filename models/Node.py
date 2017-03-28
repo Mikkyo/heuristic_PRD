@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # --- Import Area
+from models import Resource
 
 class Node:
     """Class to represents number of core and memory for a task or container"""
@@ -21,14 +22,14 @@ class Node:
     # --- Methods
     # Method to get used resources
     def get_used_resources(self):
-        resource = new Resource()
+        resource = Resource()
         for i in range(0, len(self._containers)):
             resource.add(self._containers[i].capacity)
         return resource
 
     # Method to get available resources
     def get_available_resources(self):
-        resource = new Ressource().copy(self._max_resource).sub(self.get_used_resources())
+        resource = Resource().copy(self._max_resource).sub(self.get_used_resources())
         return resource
 
     # Method to add a container

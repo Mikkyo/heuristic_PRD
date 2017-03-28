@@ -76,7 +76,7 @@ class Application:
         ready_tasks = self._dag.get_ready_tasks()
         for i in range(0, len(ready_tasks)):
             ready_task = ready_tasks[i]
-            reservation = new Reservation(ready_task.resource, ready_task.criticality, [read_task])
+            reservation = Reservation(ready_task.resource, ready_task.criticality, [read_task])
             ready_task.status = TASK_SCHEDULED
             self.rm.reserve(self, reservation)
 
