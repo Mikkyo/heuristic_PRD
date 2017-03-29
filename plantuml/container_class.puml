@@ -1,0 +1,16 @@
+@startuml
+class Container {
+    - capacity : Resource
+    - node : Node
+    - application : Application
+    - base_priority : Integer
+    - priority : Integer
+    - tasks : Task
+    - last_used : Integer
+    + Container(resource : Resource, node : Node, app : Application, base_priority : Integer)
+    + add_task(task : Task, simulation_date : Integer)
+    + remove_task(task : Task, simulation_date : Integer)
+    + preempt(simulation_date : Integer)
+    + update(simulation_date : Integer)
+}
+@enduml

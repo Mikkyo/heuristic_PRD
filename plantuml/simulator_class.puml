@@ -1,0 +1,12 @@
+@startuml
+class Simulator{
+    - nodes : Node[]
+    - resource_manager : ResourceManager
+    - application_request : Application
+    - applications : Application[]
+    - simulation_date : Integer
+    + Simulator(number_node : Integer, resource_per_node : Resource, application_requests : Application)
+    + steps(number_iteration : Integer)
+    + step()
+}
+@enduml

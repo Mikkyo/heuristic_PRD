@@ -49,7 +49,7 @@ class Simulator:
             container.preempt(self._simulation_date)
 
     # Steps Method
-    def steps(self,number_iteration):
+    def steps(self, number_iteration):
         for i in range(0, number_iteration):
             self.step()
 

@@ -1,0 +1,14 @@
+@startuml
+class TaskDAG{
+    - tasks : Task[]
+    + TaskDAG(tasks : Task[])
+    + get_root_tasks() : Task[]
+    + get_leaf_tasks() : Task[]
+    + get_ready_tasks() : Task[]
+    + get_current_tasks() : Task[]
+    + are_all_tasks_finished() : Bool
+    + init()
+    + update_tasks(simulation_date : Integer)
+    + update(simulation_date : Integer)
+}
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class Resource{
+    - vcores : Integer
+    - memory : Integer
+    + Resource(vcores : Integer, memory : Integer)
+}
+@enduml

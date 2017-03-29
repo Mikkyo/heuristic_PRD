@@ -1,0 +1,9 @@
+@startuml
+class Reservation {
+    - resource : Resource
+    - priority : Integer
+    - tasks : Task[]
+    - container : Container
+    + Reservation(resource : Resource, priority : Integer, tasks : Task[])
+}
+@enduml

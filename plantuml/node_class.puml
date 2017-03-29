@@ -1,0 +1,12 @@
+@startuml
+class Node{
+    - id : Integer
+    - max_resource : Resource
+    - containers : Container[]
+    + Node(id_node : Integer, max_resource : Resource)
+    + get_used_resources() : Resource
+    + get_available_resources() : Resource
+    + add_container(container : Container)
+    + remove_container(container : Container)
+}
+@enduml

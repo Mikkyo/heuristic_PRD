@@ -1,0 +1,16 @@
+@startuml
+class ResourceManager{
+    - nodes : Node[]
+    - total_resources : Resource
+    - applications : Task[]
+    - next_application_id : Integer
+    - containers_per_app : Container[]
+    - reservations_per_app : Reservation[]
+    + ResourceManager(nodes : Node[], resource_per_node : Resource)
+    + add_application(application : Application)
+    + reserve(application : Application, reservation : Reservation)
+    + sort_containers()
+    + preempt_containers(simulation_date : Integer)
+    + fulfil_reservation(simulation_date : Integer)
+}
+@enduml

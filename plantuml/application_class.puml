@@ -1,0 +1,15 @@
+@startuml
+class Application{
+    - dag : TaskDag
+    - containers : Container
+    - terminated : Bool
+    - algorithm : String
+    - resource_manager : ResourceManager
+    + Application(dag : TaskDag, algo : String)
+    + get_used_resources()
+    + add_container(reservation : Reservation, simulation_date : Integer)
+    + remove_container(container : Container)
+    + update_task(simulation_date : Integer)
+    + update(simulation_date : Integer)
+}
+@enduml

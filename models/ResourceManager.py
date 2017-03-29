@@ -90,4 +90,11 @@ class ResourceManager:
 
 
     # --- Getters/Setters
-    #
+    # containers_per_app
+    @property
+    def containers_per_app(self):
+        return self._containers_per_app
+
+    @containers_per_app.setter
+    def containers_per_app(self, value):
+        self._containers_per_app = value

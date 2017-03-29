@@ -1,0 +1,62 @@
+@startuml
+package "components"{
+    package "models"{
+        class Application{
+        }
+        class Reservation{
+        }
+        class Container {
+        }
+        class Node{
+        }
+        class Task{
+        }
+        class TaskDAG{
+        }
+        class Resource{
+        }
+        class ResourceManager{
+        }
+    }
+
+    package "enums"{
+        enum TaskStatus {
+            UNKNOWN
+            PENDING
+            READY
+            SCHEDULED
+            RUNNING
+            FINISHED
+        }
+    }
+}
+
+class Simulator{
+}
+
+Application ..> TaskDAG
+Application ..> Reservation
+Application ..> Container
+
+Task ..> Container
+Task ..> Resource
+
+Reservation ..> Resource
+Reservation ..> Task
+
+Node ..> Resource
+Node ..> Resource
+Node ..> Container
+
+ResourceManager ..> Node
+ResourceManager ..> Resource
+ResourceManager ..> Application
+
+Simulator ..> Resource
+Simulator ..> Application
+
+Container ..> Task
+
+TaskDAG ..> Task
+
+@enduml

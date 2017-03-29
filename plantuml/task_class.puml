@@ -1,0 +1,30 @@
+@startuml
+class Task{
+    - resource : Resource
+    - duration : Integer
+    - parent_tasks : Task[]
+    - child_tasks : Task[]
+    - min_start_date : Integer
+    - max_start_date : Integer
+    - start_date : Integer
+    - progress : Double
+    - criticality : Double
+    - container : Container
+    - status : Integer
+    + Task(resource : Resource, duration : Integer, parent_tasks : Task[], child_tasks : Task[])
+    + is_root() : Bool
+    + is_leaf() : Bool
+    + is_ready() : Bool
+    + is_running() : Bool
+    + is_finished() : Bool
+    + is_current_root() : Bool
+    + reset_start_dates()
+    + set_min_start_date(date : Integer)
+    + set_max_start_date(date : Integer)
+    + start(container : Container, simulation_date : Integer)
+    + preempt()
+    + finish(simulation_date : Integer)
+    + compute_criticality()
+    + update(simulation_date : Integer)
+}
+@enduml
