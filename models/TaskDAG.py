@@ -16,19 +16,32 @@ class TaskDAG:
 
     # --- Constructor
     def __init__(self, tasks):
+        """"
+        TaskDAG Constructor
+        :type: tasks: Task[]
+        :param: tasks: A list of Task
+        :return: None
+        """
         self._tasks = tasks
 
     # --- Methods
-    # Method to get the root tasks
+    #
     def get_root_tasks(self):
+        """
+        Method to get the root tasks
+        :return: Task[]
+        """
         root_task = []
         for i in range(0, len(self._tasks)):
             if self._tasks[i].is_root():
                 root_task.append(self._tasks[i])
         return root_task
 
-    # Method to get the leaf tasks
     def get_leaf_tasks(self):
+        """
+        Method to get the leaf tasks
+        :return:
+        """
         leaf_tasks = []
         for i in range(0, len(self._tasks)):
             if self._tasks[i].is_ready():
