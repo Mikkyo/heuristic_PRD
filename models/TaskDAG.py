@@ -5,7 +5,7 @@
 from enums.TaskStatus import TaskStatus
 
 class TaskDAG:
-    """Class to represent a container"""
+    """Class to represent a DAG [Direct Acyclic Graph] for a Task"""
 
     # --- Attributes
     # Private
@@ -18,18 +18,15 @@ class TaskDAG:
     def __init__(self, tasks):
         """"
         TaskDAG Constructor
-        :type: tasks: Task[]
-        :param: tasks: A list of Task
-        :return: None
+        :param: tasks: Task Array
         """
         self._tasks = tasks
 
     # --- Methods
-    #
     def get_root_tasks(self):
         """
         Method to get the root tasks
-        :return: Task[]
+        :return: Task Array
         """
         root_task = []
         for i in range(0, len(self._tasks)):
@@ -40,7 +37,7 @@ class TaskDAG:
     def get_leaf_tasks(self):
         """
         Method to get the leaf tasks
-        :return:
+        :return Task Array
         """
         leaf_tasks = []
         for i in range(0, len(self._tasks)):
@@ -48,31 +45,42 @@ class TaskDAG:
                 leaf_tasks.append(self._tasks[i])
         return leaf_tasks
 
-    # Method to get all the ready tasks
     def get_ready_tasks(self):
+        """
+        Method to get all the ready tasks
+        :return Task Array
+        """
         ready_tasks = []
         for i in range(0, len(self._tasks)):
             if self._tasks[i].is_ready():
                 ready_tasks.append(self._tasks[i])
         return ready_tasks
 
-    # Method to get the current tasks
     def get_current_tasks(self):
+        """
+        Method to get the current tasks
+        :return Task Array
+        """
         current_tasks = []
         for i in range(0, len(self._tasks)):
             if self._tasks[i].is_current_root():
                 current_tasks.append(self._tasks[i])
         return current_tasks
 
-    # Method to check if all tasks are finished
     def are_all_tasks_finished(self):
+        """
+        Method to check if all tasks are finished
+        :return Bool
+        """
         for i in range(0, len(self._tasks)):
             if self._tasks[i].is_finished() is False:
                 return False
         return True
 
-    # Method to init all tasks
     def init(self):
+        """
+        Method to init all tasks
+        """
         for i in range(0, len(self._tasks)):
             self._tasks[i].status = TaskStatus.PENDING
 
@@ -80,13 +88,19 @@ class TaskDAG:
         for i in range(0, len(root_tasks)):
             self._tasks[i].status = TaskStatus.READY
 
-    # Method to update tasks
     def update_tasks(self, simulation_date):
+        """
+        Method to update tasks
+        :param simulation_date: Integer
+        """
         for i in range(0, len(self._tasks)):
             self._tasks[i].update(simulation_date)
 
-    # Method to update all tasks
     def update(self, simulation_date):
+        """
+        Method to update all tasks
+        :param simulation_date: Integer
+        """
         #Reset all start date
         for i in range(0, len(self._tasks)):
             self._tasks[i].reset_start_dates()

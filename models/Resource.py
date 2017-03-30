@@ -13,6 +13,11 @@ class Resource:
 
     #--- Constructor
     def __init__(self, vcores, memory):
+        """
+        Constructor
+        :param vcores: Integer
+        :param memory: Integer
+        """
         self._vcores = vcores
         self._memory = memory
 

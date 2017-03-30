@@ -6,7 +6,7 @@ from models.Resource import Resource
 from models.Container import Container
 
 class ResourceManager:
-    """Class to represents number of core and memory for a task or container"""
+    """Class to represent the ResourceManager"""
 
     # --- Attributes
     # Private
@@ -19,6 +19,11 @@ class ResourceManager:
 
     # --- Constructor
     def __init__(self, nodes, resource_per_node):
+        """
+        Constructor
+        :param nodes: Node Array
+        :param resource_per_node: Resource Object
+        """
         self._nodes = nodes
         temp_nodes_len = len(self._nodes)
         temp_vcores = resource_per_node.vcores
@@ -30,26 +35,37 @@ class ResourceManager:
         self._reservations_per_app = []
 
     # --- Methods
-    # Method to add applications
     def add_application(self, application):
+        """
+        Method to add applications
+        :param application: Application Object
+        """
         self._applications.append(application)
         application.id = self._next_application_id + 1
         application.resource_manager = self
         self._containers_per_app[application.id] = []
         self._reservations_per_app[application.id] = []
 
-    # Method to make a reservation
     def reserve(self, application, reservation):
+        """
+        Method to make a reservation
+        :param application: Application Object
+        :param reservation: Resource Object
+        """
         self._reservations_per_app[application.id] = reservation
 
-    # Method to sort containers
     def sort_containers(self):
-        #TODO - Check this
+        """
+        Method to sort containers
+        """
         for i in range(0, len(self._containers_per_app)):
             self._containers_per_app[i].sort('sortByPriorityDesc')
 
-    # Method to help preempting a container
     def preempt_containers(self, simulation_date):
+        """
+        Method to help preempting a container
+        :param simulation_date: Integer
+        """
         number_application = len(self._applications)
         reservations_per_app = Resource(self._total_resources.vcores / number_application, self._total_resources.memory/ number_application)
 
@@ -64,8 +80,11 @@ class ResourceManager:
             while application.get_used_resources() >= reservations_per_app:
                 containers.preempt(simulation_date) # We preempt the lowest priority resource
 
-    # Method to fulfil the reservation
     def fulfil_reservation(self, simulation_date):
+        """
+        Method to fulfil the reservation
+        :param simulation_date: Integer
+        """
         for i in range(0, len(self._applications)):
             application = self._applications[i]
             reservations = self._reservations_per_app[application.id]

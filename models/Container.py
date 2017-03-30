@@ -20,6 +20,13 @@ class Container:
 
     # --- Constructor
     def __init__(self, resource, node, app, base_priority):
+        """
+        Constructor
+        :param resource: Resource Object
+        :param node: Node Object
+        :param app: Application Object
+        :param base_priority: Integer
+        """
         self._capacity = resource
         self._node = node
         self._application = app
@@ -29,29 +36,44 @@ class Container:
         self._last_used = 0
 
     # --- Methods
-    # Method to add task to a container
     def add_task(self, task, simulation_date):
+        """
+        Method to add task to a container
+        :param task: Task Object
+        :param simulation_date: Integer
+        """
         self._tasks.append(task)
         task.start()
         self.update(simulation_date)
 
-    # Method to remove a task
     def remove_task(self, task, simulation_date):
+        """
+        Method to remove a task
+        :param task: Task Object
+        :param simulation_date: Integer
+        """
         count = self._tasks.count(task)
         if count > 0 :
             self._tasks.remove(simulation_date)
             self.update(simulation_date)
 
-    # Method to preempt a container
     def preempt(self, simulation_date):
+        """
+        Method to preempt a container
+        :param simulation_date: Integer
+        :return:
+        """
         for i in range(0, len(self._tasks)):
             self._tasks[i].preempt()
             self.remove_task(self._tasks[i], simulation_date)
         self._application.remove_container(self)
         self._node.remove_container(self)
 
-    # Method to update the container
     def update(self, simulation_date):
+        """
+        Method to update the container
+        :param simulation_date: Integer
+        """
         # P37 of the Nicolas Gougeon PRD, written in a different way
         A = 0.0
         for i in range(0, len(self._tasks)):

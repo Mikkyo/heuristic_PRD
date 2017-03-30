@@ -7,7 +7,7 @@ from models.Node import Node
 
 
 class Simulator:
-    """Class to represents number of core and memory for a task or container"""
+    """Class that rules the application"""
 
     # --- Attributes
     # Private
@@ -19,6 +19,12 @@ class Simulator:
 
     # --- Constructor
     def __init__(self, number_node, resource_per_node, application_requests):
+        """
+        Constructor
+        :param number_node: Integer
+        :param resource_per_node: Resource Object
+        :param application_requests: Task Array
+        """
         self._nodes = []
         for i in range(0, number_node):
             self._nodes[i] = Node(i, resource_per_node)
@@ -32,8 +38,11 @@ class Simulator:
     #
 
     # --- Methods
-    # Debugging Method
     def tmp_pct(self, task):
+        """
+        Debugging Method
+        :param task: Task Object
+        """
         app = None
         for i in range(0, len(self._applications)):
             if self._applications[i].dag.tasks.indexOf(task) > -1:
@@ -48,13 +57,19 @@ class Simulator:
             containers.splice(index, 1)
             container.preempt(self._simulation_date)
 
-    # Steps Method
     def steps(self, number_iteration):
+        """
+        Method to do X steps
+        :param number_iteration: Integer
+        """
         for i in range(0, number_iteration):
             self.step()
 
     # Step Method
     def step(self):
+        """
+        Method to do 1 iteration
+        """
         # 1 - Increment Simulation Date
         if self._simulation_date is None:
             self._simulation_date = 0

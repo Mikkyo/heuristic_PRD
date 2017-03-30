@@ -7,7 +7,7 @@ from models.Reservation import Reservation
 from models.Resource import Resource
 
 class Application:
-    """Class to represent a container"""
+    """Class to represent Tasks submitted by user"""
 
     # --- Attributes
     # Private
@@ -27,6 +27,11 @@ class Application:
 
     # --- Constructor
     def __init__(self, dag, algo):
+        """
+        Constructor of Application
+        :param dag: Take a TaskDag Object
+        :param algo: Which algo to implement
+        """
         self._dag = dag
         self._dag.init()
 
@@ -36,8 +41,11 @@ class Application:
         self._algorithm = algo | self.APP_ALGO_SMART
 
     # --- Methods
-    # Method to get the used resources
     def get_used_resources(self):
+        """
+        Method to get the used resources
+        :return Resource type Object
+        """
         vcores = 0
         memory = 0
         for i in range(0, len(self._containers)):
@@ -45,8 +53,13 @@ class Application:
             memory += self._containers[i].memory
         return Resource(vcores, memory)
 
-    # Method to add a container
     def add_container(self, reservation, simulation_date):
+        """
+        Method to add a container
+        :param reservation: Allocated resources
+        :param simulation_date: Integer
+        :return Add in a container
+        """
         container = reservation.container
         tasks = reservation.tasks
 
@@ -56,23 +69,34 @@ class Application:
 
         self._containers.append(container)
 
-    # Method to remove a container
     def remove_container(self, container):
+        """
+        Method to remove a container
+        :param container: The container to remove (preempted)
+        """
         #A container is preempted
         count = self._containers.count(container)
         if count > 0:
             self._containers.remove(container)
 
-    # Method to update a task
     def update_task(self, simulation_date):
+        """
+        Method to update a task
+        :param simulation_date: Integer
+        :return None if application is finished
+        """
         if self._terminated :
             return
 
         self._dag.updateTasks(simulation_date)
         self._terminated = self._dag.are_all_tasks_finished()
 
-    # Method to update an application
     def update(self, simulation_date):
+        """
+        Method to update an application
+        :param simulation_date: Integer
+        :return None if application is finished
+        """
         if self._terminated :
             return
         self._dag.update(simulation_date)

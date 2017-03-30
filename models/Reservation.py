@@ -4,7 +4,7 @@
 # --- Import Area
 
 class Reservation:
-    """Class to represents number of core and memory for a task or container"""
+    """Class to store all reservations"""
 
     # --- Attributes
     # Private
@@ -15,6 +15,12 @@ class Reservation:
 
     # --- Constructor
     def __init__(self, resource, priority, tasks):
+        """
+        Constructor
+        :param resource: Resource Object
+        :param priority: Double
+        :param tasks: Task[]
+        """
         self._resource = resource
         self._priority = priority
         self._tasks = tasks

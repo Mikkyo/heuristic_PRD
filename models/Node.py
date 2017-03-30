@@ -6,7 +6,7 @@ from models.Resource import Resource
 
 
 class Node:
-    """Class to represents number of core and memory for a task or container"""
+    """Represent a node on the cluster and will be shared between different containers"""
 
     # --- Attributes
     # Private
@@ -16,13 +16,21 @@ class Node:
 
     # --- Constructor
     def __init__(self, id_node, max_resource):
+        """
+        Constructor
+        :param id_node: Integer
+        :param max_resource: Resource Object
+        """
         self._id = id_node
         self._max_resource = max_resource
         self._containers = []
 
     # --- Methods
-    # Method to get used resources
     def get_used_resources(self):
+        """
+        Method to get used resources
+        :return Resource Object
+        """
         vcores = 0
         memory = 0
         for i in range(0, len(self._containers)):
@@ -30,17 +38,26 @@ class Node:
             memory += self._containers[i].capacity.memory
         return Resource(vcores, memory)
 
-    # Method to get available resources
     def get_available_resources(self):
+        """
+        Method to get available resources
+        :return Resource Object
+        """
         resources_used = self.get_used_resources()
         return Resource(self._max_resource.vcores - resources_used.vcores, self._max_resource.memory - resources_used.memory)
 
-    # Method to add a container
     def add_container(self, container):
+        """
+        Method to add a container
+        :param container: Container Object
+        """
         self._containers.append(container)
 
-    # Method to remove a container
     def remove_container(self, container):
+        """
+        Method to remove a container
+        :param container: Container Object
+        """
         # A container is preempter
         count = self._containers.count(container)
         if (count > 0):

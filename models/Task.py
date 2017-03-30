@@ -34,6 +34,13 @@ class Task:
 
     # --- Constructor
     def __init__(self, resource, duration, parent_tasks, child_tasks):
+        """
+        Constructor
+        :param resource: Resource Object
+        :param duration: Integer
+        :param parent_tasks: Task Array
+        :param child_tasks: Task Array
+        """
         self._resource = resource
         self._duration = duration
 
@@ -48,69 +55,103 @@ class Task:
         self._status = TaskStatus.UNKNOWN
 
     # --- Methods
-    # Method to check if a task is a root
     def is_root(self):
+        """
+        Method to check if a task is a root
+        :return Bool
+        """
         if len(self._parent_tasks) > 0:
             return True
         return False
 
-    # Method to check if a task is a leaf
     def is_leaf(self):
+        """
+        Method to check if a task is a leaf
+        :return Bool
+        """
         if len(self._child_tasks) > 0:
             return True
         return False
 
-    # Method to check if a task is ready to be scheduled
     def is_ready(self):
+        """
+        Method to check if a task is ready to be scheduled
+        :return Bool
+        """
         if self._status is TaskStatus.READY:
             return True
         return False
 
-    # Method to check if a task is running
     def is_running(self):
+        """
+        Method to check if a task is running
+        :return Bool
+        """
         if self._status is TaskStatus.RUNNING:
             return True
         return False
 
-    # Method to check if a task is finished
     def is_finished(self):
+        """
+        Method to check if a task is finished
+        :return Bool
+        """
         if self._status is TaskStatus.FINISHED:
             return True
         return False
 
-    # Method to check if a task is the current root
     def is_current_root(self):
+        """
+        Method to check if a task is the current root
+        :return Bool
+        """
         if (self._status < TaskStatus.FINISHED) & (self._status > TaskStatus.PENDING):
             return True
         return False
 
-    # Method to reset all start dates
     def reset_start_dates(self):
+        """
+        Method to reset all start dates
+        """
         self._min_start_date = 0
         self._max_start_date = 999999
 
-    # Method to set the minimum starting date
     def set_min_start_date(self, date):
+        """
+        Method to set the minimum starting date
+        :param date: Integer
+        :return None if it's finished
+        """
         if self.is_finished() : return
         self._min_start_date = max(self._min_start_date, date)
         for i in range(0, len(self._child_tasks)):
             self._child_tasks[i].set_min_start_date(self._min_start_date + self._duration)
 
-    # Method to set the maximum starting date
     def set_max_start_date(self, date):
+        """
+        Method to set the maximum starting date
+        :param date: Integer
+        :return None if it's finished
+        """
         if self.is_finished(): return
         self._max_start_date = min(self._max_start_date, date)
         for i in range(0, len(self._parent_tasks)):
             self._parent_tasks[i].set_max_start_date(self._max_start_date - self._duration)
 
-    # Method to set the begining of a task
     def start(self, container, simulation_date):
+        """
+        Method to set the begining of a task
+        :param container: Container Object
+        :param simulation_date: Integer
+        """
         self._start_date = simulation_date
         self._container = container
         self._status = TaskStatus.RUNNING
 
-    # Method to preempt a task
     def preempt(self):
+        """
+        Method to preempt a task
+        """
         if self.is_running() :
             self._start_date = -1
             self._progress = 0.0
@@ -118,8 +159,11 @@ class Task:
             self._container = None
             self._status = TaskStatus.READY
 
-    # Method to finish a task
     def finish(self, simulation_date):
+        """
+        Method to finish a task
+        :param simulation_date: Integer
+        """
         self._criticality = 0.0
         self._container.remove_task(self, simulation_date)
         self._container = None
@@ -127,8 +171,10 @@ class Task:
         for i in range(0, len(self._child_tasks)):
             self._child_tasks[i].status = TaskStatus.READY
 
-    # Method to compute criticality
     def compute_criticality(self):
+        """
+        Method to compute criticality
+        """
         if self.is_finished(): return
         # This calculation is based on Nicolas Gougeon heuristic
         criticality = self.CRIT_KD * min(self._duration/ self.CRIT_D_MAX, 1.0)
@@ -136,8 +182,11 @@ class Task:
 
         self._criticality = criticality / (self.CRIT_KD + self.CRIT_KR) # To normalize the result
 
-    # Methode to update the task
     def update(self, simulation_date):
+        """
+        Methode to update the task
+        :param simulation_date: Integer
+        """
         if self.is_running() :
             self._progress = (simulation_date - self._start_date) / self._duration
             self._container.update(simulation_date) #Update the container priority

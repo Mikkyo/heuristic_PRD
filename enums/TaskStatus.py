@@ -5,7 +5,7 @@
 from enum import Enum
 
 class TaskStatus(Enum):
-    """Class to represent a container"""
+    """Class to represent all status of a task"""
 
     # --- Attributes
     UNKNOWN = 0
